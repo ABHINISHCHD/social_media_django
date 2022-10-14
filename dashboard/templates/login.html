@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block  content %}
+
+<section>
+    <div style="margin:auto;padding-top: 5px;width:600px;">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <h1><strong>Login</strong></h1>
+            {{form}}
+            
+            <button type="submit" class="btn btn-outline-primary" style="padding:4px 9px;margin-top:20px;">Sign In</button>
+        </form>
+    </div>
+</section>
+
+{% endblock content %}

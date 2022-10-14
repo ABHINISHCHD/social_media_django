@@ -1,0 +1,65 @@
+    {% extends 'base.html' %}
+
+
+{% block  content %}
+
+   
+
+<section>
+    <div style="display:flex;justify-content: space-between;">
+        <div style="width:45rem;">
+            {% for post in posts %}
+            
+            <div class="card" style="width: 45rem;border-radius:10px;">
+                <div style="display:flex;">
+                <a href="{% url 'dashboard:info' post.person.user.id %}"><img style="width:50px;border-radius:50%;margin:10px" src="{{post.person.imageurl}}"/></a>
+                <h4 style="margin:16px">{{post.person.name}}</h4>
+                </div>
+                <img src="{{post.imageurl}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                <div style="display: flex;align-items: center;">
+                <h3>{{post.likes}}</h3>
+                <a href="/like_post/?post_id={{post.id}}"><img src="media/like.png" style="width:55px;margin-left:10px;"/></a>
+                
+                <img src="media/comment.png" style="width:35px;margin-left:10px;"/>
+
+            </div>
+                <p class="card-text">{{post.caption}}</p>
+                
+            </div>
+              </div>
+            <br><br><br>
+            {% endfor %}
+        </div>
+        
+        <div style="width:20rem;border-radius:10px;">
+            <div style="margin-top:30px;min-height:14rem;width:100%;border-radius:4px;border:1px solid grey;padding:20px;">
+                <p style="color:grey;"><strong>Person That You Can Follow</strong></p>
+                <br>
+                {% for account in accounts %}
+                <div style="display:flex">
+                    <img src="{{account.imageurl}}" style="width:30px;border-radius:50%;margin:5px;height:30px;" />
+                    <p><strong>{{account.name}}</strong></p>
+                    <form action="/follow/"  methods="POST">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{user.username}}" name="follower">
+                        <input type="hidden" value="{{account.name}}" name="user">
+                        <button class="btn btn-success" style="margin-left:10px;" type="submit">follow</button>
+                    </form>
+                </div>
+                <br>
+                {% endfor %}
+                
+            </div>
+        </div>
+    </div>
+    {% if posts.has_previous%}
+    <a href="?page={{posts.previous_page_number}}" class="btn btn-success">previous</a>
+    {% endif %}
+    <span class="btn btn-outline-success">{{posts.number}}</span>
+    {% if posts.has_next%}
+    <a href="?page={{posts.next_page_number}}" class="btn btn-success">next</a>
+    {% endif %}
+</section>
+
+{% endblock content %}
